@@ -1,0 +1,13 @@
+package com.uningen.MysqlAircraft;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MysqlAircraftApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(MysqlAircraftApplication.class, args);
+	}
+
+}
