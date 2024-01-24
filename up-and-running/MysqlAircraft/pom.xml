@@ -31,6 +31,14 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<!--		to resolve conflict arising on Mac  -->
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-resolver-dns-native-macos</artifactId>
+			<scope>runtime</scope>
+			<classifier>osx-aarch_64</classifier>
+		</dependency>
+		<!--		to resolve conflict arising on Mac  -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

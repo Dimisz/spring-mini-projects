@@ -1,8 +1,7 @@
-package com.uningen.Aircraft.web;
+package com.uningen.Neo4jAircraft.web;
 
-import com.uningen.Aircraft.domain.Aircraft;
-import com.uningen.Aircraft.domain.AircraftRepository;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
+import com.uningen.Neo4jAircraft.domain.Aircraft;
+import com.uningen.Neo4jAircraft.domain.AircraftRepository;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -11,26 +10,24 @@ import org.springframework.web.reactive.function.client.WebClient;
 @EnableScheduling
 @Component
 public class PlaneFinderPoller {
-    private WebClient client =
+    private WebClient webClient =
             WebClient.create("http://localhost:7634/aircraft");
-    private final RedisConnectionFactory connectionFactory;
     private final AircraftRepository aircraftRepository;
-    PlaneFinderPoller(RedisConnectionFactory connectionFactory,
-                      AircraftRepository aircraftRepository){
-        this.connectionFactory = connectionFactory;
+
+    public PlaneFinderPoller(AircraftRepository aircraftRepository){
         this.aircraftRepository = aircraftRepository;
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 1000)
     private void pollPlanes(){
-        connectionFactory.getConnection().serverCommands().flushDb();
-
-        client.get()
+        aircraftRepository.deleteAll();
+        webClient.get()
                 .retrieve()
                 .bodyToFlux(Aircraft.class)
                 .filter(plane -> !plane.getReg().isEmpty())
                 .toStream()
                 .forEach(aircraftRepository::save);
+        System.out.println("---- All Aircraft ---- ");
         aircraftRepository.findAll().forEach(System.out::println);
     }
 }
