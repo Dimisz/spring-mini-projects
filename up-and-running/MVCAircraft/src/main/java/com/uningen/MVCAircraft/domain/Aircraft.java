@@ -1,6 +1,5 @@
 package com.uningen.MVCAircraft.domain;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

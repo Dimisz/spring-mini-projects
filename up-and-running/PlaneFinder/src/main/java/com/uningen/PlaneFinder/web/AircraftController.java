@@ -3,11 +3,9 @@ package com.uningen.PlaneFinder.web;
 import com.uningen.PlaneFinder.domain.Aircraft;
 import com.uningen.PlaneFinder.domain.AircraftRepository;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/aircraft")
+//@RestController
+//@RequestMapping("/aircraft")
 public class AircraftController {
     private final AircraftRepository aircraftRepository;
 
