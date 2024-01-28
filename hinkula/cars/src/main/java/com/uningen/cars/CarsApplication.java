@@ -17,11 +17,14 @@ public class CarsApplication implements CommandLineRunner {
 	private final CarRepository carRepository;
 	private final OwnerRepository ownerRepository;
 	private final AppUserRepository appUserRepository;
+	private final SecurityConfig securityConfig;
 
-	public CarsApplication(CarRepository carRepository, OwnerRepository ownerRepository, AppUserRepository appUserRepository){
+	public CarsApplication(CarRepository carRepository, OwnerRepository ownerRepository,
+						   AppUserRepository appUserRepository, SecurityConfig securityConfig){
 		this.carRepository = carRepository;
 		this.ownerRepository = ownerRepository;
 		this.appUserRepository = appUserRepository;
+		this.securityConfig = securityConfig;
 	}
 
 	public static void main(String[] args) {
@@ -44,9 +47,9 @@ public class CarsApplication implements CommandLineRunner {
 		}
 
 // Username: user, password: user
-		appUserRepository.save(new AppUser("user", "$2a$10$TcdYNKOyTaY.j2TgYu8FlelgP.KtraJS3eNEtTF3KkPz/qVynIWn6", "USER"));
+		appUserRepository.save(new AppUser("user", "$2a$10$D7gZVzA1JpfPzub4OqzvZOBPrqsNXSIVC9xF2n/3RqR95ori6k8ZC", "USER"));
 		// Username: admin, password: admin
-		appUserRepository.save(new AppUser("admin","$2a$10$3YN9LgAgsVINxDfSy3H.auCCDZ2867ZRbhm/3pBqf1yPcugslhObO", "ADMIN"));
+		appUserRepository.save(new AppUser("admin", securityConfig.passwordEncoder().encode("admin"), "ADMIN"));
 	}
 
 }

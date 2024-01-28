@@ -25,6 +25,9 @@ public class AppUser {
         this.username = username;
         this.password = password;
         this.role = role;
+        System.out.println("New user created");
+        System.out.println("Username: " + this.username);
+        System.out.println("Password: " + this.password);
     }
 
     public Long getId() {
