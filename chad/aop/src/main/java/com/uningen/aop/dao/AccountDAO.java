@@ -5,7 +5,7 @@ import com.uningen.aop.Account;
 import java.util.List;
 
 public interface AccountDAO {
-    List<Account> findAccounts();
+    List<Account> findAccounts(boolean throwExeption);
     void addAccount(Account account);
     public String getName();
 

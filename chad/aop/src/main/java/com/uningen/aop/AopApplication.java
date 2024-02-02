@@ -21,12 +21,50 @@ public class AopApplication {
 		return runner -> {
 //			demoBeforeAdviceOnAccount(accountDAO);
 //			demoBeforeAdviceOnMembership(membershipDAO);
-			demoAfterReturningAdvice(accountDAO);
+//			demoAfterReturningAdvice(accountDAO);
+//			demoAfterThrowingAdvice(accountDAO);
+			demoAfterAdvice(accountDAO);
 		};
 	}
 
+	private void demoAfterAdvice(AccountDAO accountDAO) {
+		List<Account> accounts = null;
+		try {
+			// add a boolean to simulate an exeption
+			boolean throwExeption = false;
+			accounts = accountDAO.findAccounts(throwExeption);
+		}
+		catch (Exception ex){
+			System.out.println("\n\nMain Program: CAUGHT EXEPTION: " + ex);
+		}
+
+		// display the accounts
+		System.out.println("\n\nMain Program: demoAfterThrowingAdvice");
+		System.out.println("==============");
+		System.out.println(accounts);
+		System.out.println("\n");
+	}
+
+	private void demoAfterThrowingAdvice(AccountDAO accountDAO) {
+		List<Account> accounts = null;
+		try {
+			// add a boolean to simulate an exeption
+			boolean throwExeption = true;
+			accounts = accountDAO.findAccounts(throwExeption);
+		}
+		catch (Exception ex){
+			System.out.println("\n\nMain Program: CAUGHT EXEPTION: " + ex);
+		}
+
+		// display the accounts
+		System.out.println("\n\nMain Program: demoAfterThrowingAdvice");
+		System.out.println("==============");
+		System.out.println(accounts);
+		System.out.println("\n");
+	}
+
 	public void demoAfterReturningAdvice(AccountDAO accountDAO){
-		List<Account> accounts = accountDAO.findAccounts();
+		List<Account> accounts = accountDAO.findAccounts(false);
 		// display the accounts
 		System.out.println("\n\nMain Program: demoAfterReturningAdvice");
 		System.out.println("==============");

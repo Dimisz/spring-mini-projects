@@ -32,7 +32,8 @@ public class AccountDAOImpl implements AccountDAO{
     }
 
     @Override
-    public List<Account> findAccounts() {
+    public List<Account> findAccounts(boolean throwExeption) {
+        if(throwExeption) throw new RuntimeException("ACADEMIC EXEPTION");
         List<Account> accounts = new ArrayList<>();
         accounts.addAll(List.of(
                 new Account("first account", "silver"),
