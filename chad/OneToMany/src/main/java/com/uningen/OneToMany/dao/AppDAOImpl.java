@@ -1,11 +1,17 @@
 package com.uningen.OneToMany.dao;
 
+import com.uningen.OneToMany.entities.Course;
 import com.uningen.OneToMany.entities.Instructor;
 import com.uningen.OneToMany.entities.InstructorDetail;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class AppDAOImpl implements AppDAO{
@@ -43,6 +49,13 @@ public class AppDAOImpl implements AppDAO{
         // delete the instructor
         else {
             System.out.println("Instructor found. Deleting...");
+            // get the courses
+            List<Course> courses = instructor.getCourses();
+            // break association with the instructor
+            for(Course course: courses){
+                course.setInstructor(null);
+            }
+
             entityManager.remove(instructor);
         }
     }
@@ -67,6 +80,81 @@ public class AppDAOImpl implements AppDAO{
             entityManager.remove(instructorDetail);
             System.out.println("Instructor detail with id: [" +
                     id + "] deleted.");
+        }
+    }
+
+    @Override
+    public List<Course> findCoursesByInstructorId(int id) {
+
+        // create query
+        TypedQuery<Course> query = entityManager.createQuery(
+                "from Course where instructor.id = :data", Course.class
+        );
+        query.setParameter("data", id);
+
+        // execute the query
+        List<Course> courses = query.getResultList();
+
+        return courses;
+    }
+
+    @Override
+    public Instructor findInstructorByIdJoinFetch(int id) {
+        Instructor instructor = null;
+        TypedQuery<Instructor> query = entityManager.createQuery(
+                "select i from Instructor i " +
+                        "JOIN FETCH i.courses " +
+                        "JOIN FETCH i.instructorDetail " +
+                        "where i.id = :data", Instructor.class
+        );
+        try {
+            query.setParameter("data", id);
+            instructor = query.getSingleResult();
+        }
+        catch(EmptyResultDataAccessException emptyResultExeption){
+            System.out.println("Empty result returned for instructor with id: " + id + ".");
+        }
+        catch(NoResultException noResult){
+            System.out.println("No result returned for instructor with id: " + id + ".");
+        }
+        catch(Exception ex){
+            System.out.println("Something went wrong:");
+            System.out.println(ex);
+        }
+
+        return instructor;
+    }
+
+    @Override
+    @Transactional
+    public void updateInstructor(Instructor instructor) {
+        entityManager.merge(instructor);
+    }
+
+    @Override
+    @Transactional
+    public void updateCourse(Course course) {
+        entityManager.merge(course);
+    }
+
+    @Override
+    public Course findCourseById(int id) {
+        return entityManager.find(Course.class, id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCourseById(int id) {
+        // retrieve the course
+        Course course = entityManager.find(Course.class, id);
+        if(course == null){
+            System.out.println("Course with id: " + id + " was not found");
+        }
+        else {
+            // delete the course
+            String courseTitle = course.getTitle();
+            entityManager.remove(course);
+            System.out.println("The '" + courseTitle + "' with id: " + id + " has been removed");
         }
     }
 }

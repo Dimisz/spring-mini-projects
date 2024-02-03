@@ -61,7 +61,7 @@ public class InstructorDetail {
 
     @Override
     public String toString() {
-        return "Details: " +
+        return "Instructor Details: " +
                 "instructor with id: " + id +
                 ", has a youtubeChannel: " + youtubeChannel +
                 ", and a hobby: " + hobby + ".";
