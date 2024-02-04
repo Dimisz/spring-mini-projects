@@ -2,6 +2,7 @@ package com.uningen.aop;
 
 import com.uningen.aop.dao.AccountDAO;
 import com.uningen.aop.dao.MembershipDAO;
+import com.uningen.aop.service.TrafficFortuneService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,14 +18,39 @@ public class AopApplication {
 	}
 
 	@Bean
-	public CommandLineRunner commandLineRunner(AccountDAO accountDAO, MembershipDAO membershipDAO){
+	public CommandLineRunner commandLineRunner(AccountDAO accountDAO,
+											   MembershipDAO membershipDAO,
+											   TrafficFortuneService trafficFortuneService){
 		return runner -> {
 //			demoBeforeAdviceOnAccount(accountDAO);
 //			demoBeforeAdviceOnMembership(membershipDAO);
 //			demoAfterReturningAdvice(accountDAO);
 //			demoAfterThrowingAdvice(accountDAO);
-			demoAfterAdvice(accountDAO);
+//			demoAfterAdvice(accountDAO);
+
+//			demoAroundAdvice(trafficFortuneService);
+			demoAroundAdviceHandleExeption(trafficFortuneService);
 		};
+	}
+
+	private void demoAroundAdviceHandleExeption(TrafficFortuneService trafficFortuneService) {
+		System.out.println("\n===========================");
+		System.out.println("Running demoAroundAdvice from Main App");
+		System.out.println("Calling getFortune()....");
+		System.out.println("Throwing exeption...");
+
+		String fortune = trafficFortuneService.getFortune(true);
+		System.out.println("\nMy fortune is: " + fortune);
+		System.out.println("Done with demoAroundAdvice");
+	}
+
+	private void demoAroundAdvice(TrafficFortuneService trafficFortuneService) {
+		System.out.println("\n===========================");
+		System.out.println("Running demoAroundAdvice from Main App");
+		System.out.println("Calling getFortune()....");
+		String fortune = trafficFortuneService.getFortune();
+		System.out.println("\nMy fortune is: " + fortune);
+		System.out.println("Done with demoAroundAdvice");
 	}
 
 	private void demoAfterAdvice(AccountDAO accountDAO) {

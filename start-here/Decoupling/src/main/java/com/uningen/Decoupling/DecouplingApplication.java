@@ -13,6 +13,11 @@ public class DecouplingApplication {
 		ApplicationContext ctx = SpringApplication.run(DecouplingApplication.class, args);
 
 		Comment comment = new Comment();
+
+		CommentService cs1 = ctx.getBean(CommentService.class);
+		CommentService cs2 = ctx.getBean(CommentService.class);
+		System.out.println(cs1 == cs2);
+		
 		comment.setAuthor("Vladimir Solovyov");
 		comment.setText("Test comment with Spring Context");
 		CommentService commentService = ctx.getBean(CommentService.class);

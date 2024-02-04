@@ -19,11 +19,26 @@ public class AdvancedCrudApplication {
 	public CommandLineRunner commandLineRunner(AppDAO appDAO){
 		return runner -> {
 //			createInstructor(appDAO);
-			findInstructorById(appDAO, 3);
-			findInstructorById(appDAO, 8);
+//			Instructor instructor = findInstructorById(appDAO, 3);
+//			System.out.println(instructor);
+//			findInstructorById(appDAO, 8);
+//			deleteInstructor(appDAO, 5);
+//			deleteInstructor(appDAO, 2);
+//			InstructorDetail instructorDetail = findInstructorDetail(appDAO, 3);
+//			System.out.println(instructorDetail);
+//			System.out.println("Associated instructor: " + instructorDetail.getInstructor());
+//			deleteInstructorDetailById(appDAO, 8);
+			deleteInstructorDetailById(appDAO, 6);
+
 		};
 	}
 
+	private void deleteInstructorDetailById(AppDAO appDAO, int id){
+		appDAO.deleteInstructorDetailById(id);
+	}
+	private InstructorDetail findInstructorDetail(AppDAO appDAO, int id){
+		return appDAO.findInstructorDetailById(id);
+	}
 	private Instructor findInstructorById(AppDAO appDAO, int id){
 		Instructor i = appDAO.findInstructorById(id);
 		if(i == null){
@@ -67,6 +82,12 @@ public class AdvancedCrudApplication {
 		System.out.println("Saving instructor 2");
 		System.out.println(instructor2);
 		appDAO.save(instructor2);
+		System.out.println("Done");
+	}
+
+	private void deleteInstructor(AppDAO appDAO, int id){
+		System.out.println("Deleting instructor: " + id);
+		appDAO.deleteInstructorById(id);
 		System.out.println("Done");
 	}
 
