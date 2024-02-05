@@ -15,7 +15,7 @@ public class ChallengeAttempt {
      * Identifies the attempt from  a {@link User} to solve a challenge
      */
     private Long id;
-    private Long userId;
+    private User user;
     private int factorA;
     private int factorB;
     private int resultAttempt;
