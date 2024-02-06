@@ -1,6 +1,6 @@
 package com.uningen.multiplication.challenge;
 
-import com.uningen.multiplication.user.User;
+import com.uningen.multiplication.user.AppUser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +39,12 @@ public class ChallengeAttemptControllerTest {
     @Test
     void postValidResult() throws Exception {
         // given
-        User user = new User(1L, "john");
+        AppUser appUser = new AppUser("john");
         long attemptId = 5L;
         ChallengeAttemptDTO attemptDTO =
                 new ChallengeAttemptDTO(50, 70, "john", 3500);
         ChallengeAttempt expectedResponse =
-                new ChallengeAttempt(attemptId,user, 50, 70, 3500, true);
+                new ChallengeAttempt(attemptId, appUser, 50, 70, 3500, true);
         given(challengeService
                 .verifyAttempt(eq(attemptDTO)))
                 .willReturn(expectedResponse);

@@ -1,23 +1,27 @@
 package com.uningen.multiplication.challenge;
 
-import com.uningen.multiplication.user.User;
+import com.uningen.multiplication.user.AppUser;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@ToString
-@EqualsAndHashCode
+@Entity
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class ChallengeAttempt {
     /**
-     * Identifies the attempt from  a {@link User} to solve a challenge
+     * Identifies the attempt from  a {@link AppUser} to solve a challenge
      */
+    @Id
+    @GeneratedValue
     private Long id;
-    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "APP_USER_ID")
+    private AppUser appUser;
     private int factorA;
     private int factorB;
-    private int resultAttempt;
+    private int guess;
     private boolean correct;
 }
