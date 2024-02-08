@@ -41,7 +41,7 @@ public class LoginProcessor {
         System.out.println(password);
 
         boolean loginResult = false;
-        if("natalie".equals(username) && "password".equals(password)){
+        if("username".equals(username) && "password".equals(password)){
             loginResult = true;
             loggedUserManagementService.setUsername(username);
         }
